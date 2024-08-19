@@ -2,7 +2,9 @@
 
 Repositorio para la materia Laboratorio de Datos 2024
 
-%% ## Trabajos prácticos
+## Trabajos prácticos
+
+TPs
 
 ### Trabajos en clase
 
