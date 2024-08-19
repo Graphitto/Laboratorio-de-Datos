@@ -8,7 +8,7 @@ print(random.random()) # '''
 # ABRIR ARCHIVOS 
 '''
 # Forma 1 de abrir archivos
-f = open('Clase 02/datame.txt', 'rt' ) # r == 'read', t == 'text'
+f = open('Materiales/datame.txt', 'rt' ) # r == 'read', t == 'text'
 data = f.read()
 f.close()
 
@@ -16,7 +16,7 @@ data
 print(data)
 
 # Forma 2 de abrir archivos
-with open('Clase 02/datame.txt', 'rt') as file:
+with open('Materiales/datame.txt', 'rt') as file:
     # for line in file: # esto lee linea a linea
     data = file.read()
     # Al salir se cierra el archivo solo
@@ -37,7 +37,7 @@ datame.close() # '''
 
 # Ejemplo de como mostrar la primera columna
 '''
-path_relativo = 'Clase 02/'
+path_relativo = 'Materiales/'
 nombre_archivo = 'cronograma_sugerido.csv'
 lista_de_materias = []
 with open(path_relativo + nombre_archivo, 'rt') as file:
@@ -53,7 +53,7 @@ for x in lista_de_materias:
 # Ejemplo de importar modulo CSV (no se usa tanto... mejor Pandas)
 '''
 import csv
-path_relativo = 'Clase 02/'
+path_relativo = 'Materiales/'
 nombre_archivo = 'cronograma_sugerido.csv'
 
 f = open(path_relativo + nombre_archivo)
@@ -89,7 +89,7 @@ print(tabulate(df, headers = 'keys', tablefmt = 'psql')) # '''
 
 # Abrir CSV con Pandas
 # '''
-path_relativo = 'Clase 02/'
+path_relativo = 'Materiales/'
 nombre_archivo = 'cronograma_sugerido.csv'
 df = pd.read_csv(path_relativo + nombre_archivo)
 
