@@ -78,10 +78,10 @@ def generar_heatmaps_variaciones(df_digitos: pd.DataFrame, ruta_destino: str):
         matriz_variabilidad_clase = np.array(matriz_variabilidad_clase)
         
         # Crear el heatmap
+        # plt.title('Distribución de valores únicos en imágenes de 28x28 - Dígito ' + str(digito))
         plt.figure(figsize=(8, 8))
         plt.imshow(matriz_variabilidad_clase, cmap='hot', interpolation='nearest', vmin=1, vmax=256)
         plt.colorbar(label='Cantidad de valores únicos')
-        plt.title('Distribución de valores únicos en imágenes de 28x28 - Dígito ' + str(digito))
         plt.xlabel('Eje X')
         plt.ylabel('Eje Y')
         plt.savefig(ruta_destino + 'Distribucion Digito ' + str(digito) + '.png')
@@ -90,10 +90,10 @@ def generar_heatmaps_variaciones(df_digitos: pd.DataFrame, ruta_destino: str):
     matriz_variabilidad_global = np.array(matriz_variabilidad_global)
     
     # Crear el heatmap
+    # plt.title('Distribución de cantidad de valores únicos en imágenes de 28x28')
     plt.figure(figsize=(8, 8))
     plt.imshow(matriz_variabilidad_global, cmap='hot', interpolation='nearest', vmin=1, vmax=256)
     plt.colorbar(label='Cantidad de valores únicos')
-    #plt.title('Distribución de cantidad de valores únicos en imágenes de 28x28')
     plt.xlabel('Eje X')
     plt.ylabel('Eje Y')
     #plt.show()
@@ -133,10 +133,10 @@ def generar_heatmaps_diferencias(df_digitos: pd.DataFrame, ruta_destino: str, di
     matriz_variabilidad_diferencias = np.array(matriz_variabilidad_diferencias)
     
     # Crear el heatmap
+    # plt.title('Diferencia simétrica entre valores únicos de pixeles entre digitos ' + str(digito1) + ' y ' + str(digito2))
     plt.figure(figsize=(8, 8))
     plt.imshow(matriz_variabilidad_diferencias, cmap='hot', interpolation='nearest', vmin=1, vmax=256)
     plt.colorbar(label='Cantidad de valores únicos')
-    #plt.title('Diferencia simétrica entre valores únicos de pixeles entre digitos ' + str(digito1) + ' y ' + str(digito2))
     plt.xlabel('Eje X')
     plt.ylabel('Eje Y')
     plt.savefig(ruta_destino + 'Diferencia simetrica entre ' + str(digito1) + ' y ' + str(digito2) + '.png')
