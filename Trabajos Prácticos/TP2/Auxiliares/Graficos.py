@@ -21,6 +21,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from PIL import Image
 
 # Función principal que será llamada al importar el archivo desde otro archivo
 def graficar(ruta_origen: str, archivo_csv: str, ruta_destino: str):
@@ -34,6 +35,8 @@ def graficar(ruta_origen: str, archivo_csv: str, ruta_destino: str):
     generar_heatmaps_diferencias(df_digitos, ruta_destino, 3, 8)
     generar_heatmaps_diferencias(df_digitos, ruta_destino, 0, 1)
 
+    # Generacion de las 29.900 imágenes (OJO, demora ~2 min) 
+    # generar_imagenes_raw(df_digitos, ruta_destino + 'Raw/')
 
 def cargar_archivo(ruta: str):
     return pd.read_csv(ruta)
@@ -144,9 +147,32 @@ def generar_heatmaps_diferencias(df_digitos: pd.DataFrame, ruta_destino: str, di
 
 # %% # Gráficos de heatmap de promedio de diferencias entre dígitos
 def generar_heatmaps_promedio_diferencias(df_digitos: pd.DataFrame, ruta_destino: str):
+    # TODO
+    pass
 
 
 
+
+
+# %% # Generacion de todas las imagenes en formato PNG
+def generar_imagenes_raw(df_digitos: pd.DataFrame, ruta_destino: str):
+    ancho_img = 28
+    alto_img = 28
+
+    for i in range(0, df_digitos.shape[0]):
+        registro = df_digitos.iloc[[i]]
+        fuente = registro.names.values[0]
+        digito = registro.labels.values[0]
+        pixels = registro[registro.columns[-784:]].to_numpy()
+        
+        img = Image.new('L', (ancho_img, alto_img))
+        img_matrix = img.load()
+        for y in range(0, ancho_img):
+            for x in range(0, alto_img):
+                img_matrix[x, y] = int(pixels[0][y*28 + x])
+
+        img = img.resize((ancho_img * 10, alto_img * 10), resample=Image.NEAREST)
+        img.save(ruta_destino + fuente + ' - Digito ' + str(digito) + '.png')
 
 
 ########################
