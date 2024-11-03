@@ -5,14 +5,14 @@
     - Nogueroles, Patricio
 
     Archivo encargado de generar gráficos utilizando el dataset de dígitos. 
+    El método principal es graficar(...)
 
     Prerrequisito:
-        Contar con el dataset TMNIST en formato CSV
+        Se debe recibir como parámetro el dataset TMNIST como DataFrame
     
     Modo de uso:
         Importar el archivo actual y llamar a la función graficar(...), pasando como parámetros:
-            - ruta_origen, carpeta en donde se ubicará el dataset (i.e. '../')
-            - archivo_csv, nombre del archivo CSV que contiene el dataset (i.e. 'TMNIST_Data.csv')
+            - df_digitos, dataframe del dataset TMNIST
             - ruta_destino, carpeta en donde se almacenarán los gráficos (i.e. '../Graficos/')
 
 '''
@@ -24,8 +24,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 
 # Función principal que será llamada al importar el archivo desde otro archivo
-def graficar(ruta_origen: str, archivo_csv: str, ruta_destino: str):
-    df_digitos = cargar_archivo(ruta_origen + archivo_csv)
+def graficar(df_digitos: pd.DataFrame, ruta_destino: str):
 
     # Graficos para ejercicio 1.A (usados en Sección 2.2 y 2.3)
     generar_heatmaps_variaciones(df_digitos, ruta_destino)
@@ -36,10 +35,13 @@ def graficar(ruta_origen: str, archivo_csv: str, ruta_destino: str):
     generar_heatmaps_diferencias(df_digitos, ruta_destino, 0, 1)
 
     # Generacion de las 29.900 imágenes (OJO, demora ~2 min) 
-    # generar_imagenes_raw(df_digitos, ruta_destino + 'Raw/')
+        # generar_imagenes_raw(df_digitos, ruta_destino + 'Raw/')
 
-def cargar_archivo(ruta: str):
-    return pd.read_csv(ruta)
+
+
+'''
+    Funciones auxiliares
+'''
 
 # %% # Gráficos de heatmap para análisis inicial del dataset e importancia de atributos
 def generar_heatmaps_variaciones(df_digitos: pd.DataFrame, ruta_destino: str):
@@ -159,18 +161,22 @@ def generar_imagenes_raw(df_digitos: pd.DataFrame, ruta_destino: str):
     ancho_img = 28
     alto_img = 28
 
+    # Para cada registro del dataset (de las 29.900 totales)
     for i in range(0, df_digitos.shape[0]):
-        registro = df_digitos.iloc[[i]]
-        fuente = registro.names.values[0]
-        digito = registro.labels.values[0]
-        pixels = registro[registro.columns[-784:]].to_numpy()
+        registro = df_digitos.iloc[[i]]                         # Tomar el i-ésimo registro
+        fuente = registro.names.values[0]                       # Obtener la fuente con la que se dibujó
+        digito = registro.labels.values[0]                      # El dígito que representa la imagen
+        pixels = registro[registro.columns[-784:]].to_numpy()   # Las restantes 784 columnas, en forma de np.array, cada una representando un pixel
         
+        # La imagen será en escala de grises (por eso el 'L')
         img = Image.new('L', (ancho_img, alto_img))
         img_matrix = img.load()
         for y in range(0, ancho_img):
             for x in range(0, alto_img):
+                # Asignamos la columna (y*28 + x)-ésima al pixel (x,y)
                 img_matrix[x, y] = int(pixels[0][y*28 + x])
 
+        # Agrandar la imagen (de lo contrario sería difícil ver una imagen de 28x28) y guardarla
         img = img.resize((ancho_img * 10, alto_img * 10), resample=Image.NEAREST)
         img.save(ruta_destino + fuente + ' - Digito ' + str(digito) + '.png')
 
